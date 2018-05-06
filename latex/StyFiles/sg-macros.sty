@@ -1,0 +1,237 @@
+%% Latex Macros
+%% Stephen Gould <sgould@stanford.edu>
+%%
+
+% Packages
+\usepackage{listings}
+\usepackage{color}
+
+% Shorthands
+\ifx \@etal \@empty \newcommand{\etal}{et al.} \fi
+\newcommand{\eg}{e.g.,~}
+\newcommand{\ie}{i.e.,~}
+\ifx \@etc \@empty \newcommand{\etc}{etc.} \fi
+
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+% Mathematical Functions
+\newcommand{\zeros}{\textbf{0}}
+\newcommand{\ones}{\textbf{1}}
+\newcommand{\bools}{\mathbb{B}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\complex}{\mathbb{C}}
+\newcommand{\integers}{\mathbb{Z}}
+\newcommand{\candinals}{\mathbb{N}}
+\newcommand{\myvec}[1]{\textbf{vec}\left(#1\right)}
+\newcommand{\diag}[1]{\textbf{diag}\left(#1\right)}
+\newcommand{\trace}[1]{\textbf{tr}\left(#1\right)}
+\newcommand{\mydet}[1]{\textbf{det}\left(#1\right)}
+\newcommand{\domain}[1]{\textbf{dom}\left(#1\right)}
+\newcommand{\values}[1]{\textbf{val}\left(#1\right)}
+\newcommand{\proj}[2]{\textbf{proj}_{#1}\left(#2\right)}
+\newcommand{\sign}[1]{\textbf{sign}\left(#1\right)}
+\newcommand{\eye}{\textbf{I}}
+%\newcommand{\ind}[1]{\ensuremath{\textbf{1}\!\left\{#1\right\}}}
+\newcommand{\ind}[1]{\ensuremath{\makebox[.3ex][l]{[}\makebox{[}#1\makebox[.3ex][l]{]}\makebox{]}}}
+\newcommand{\bigind}[1]{\ensuremath{\makebox[.3ex][l]{\Big[}\makebox{\Big[}#1\makebox[.3ex][l]{\Big]}\makebox{\Big]}}}
+%\newcommand{\ind}[1]{\ensuremath{\mathbb{[}#1\mathbb{]}}}
+\newcommand{\pr}[1]{\ensuremath{\textrm{P}\left(#1\right)}}
+\newcommand{\energy}[1]{\ensuremath{E\!\left(#1\right)}}
+\newcommand{\expectwrt}[2][]{\ensuremath{\textbf{E}_{#1}\!\left[#2\right]}}
+\newcommand{\expectation}[1]{\ensuremath{\textbf{E}\left[#1\right]}}
+\newcommand{\entropy}[1]{\ensuremath{\textbf{H}\left[#1\right]}}
+\newcommand{\entropywrt}[2][]{\ensuremath{\textbf{H}_{#1}\!\left(#2\right)}}
+\newcommand{\normal}[1]{\ensuremath{\mathcal{N}\left(#1\right)}}
+\newcommand{\argmin}{\mathop{\textrm{argmin}}}
+\newcommand{\argmax}{\mathop{\textrm{argmax}}}
+\newcommand{\nbr}[1]{\ensuremath{\textbf{nbr}\left(#1\right)}}
+\newcommand{\kl}[2]{\textbf{D}_{\textrm{KL}}\left(#1 \;\|\; #2\right)}
+\newcommand{\mahal}[3]{d\left(#1, #2 ; #3\right)}
+\newcommand{\mst}[1]{\ensuremath{\textbf{mst}\left(#1\right)}}
+
+% Code Markup
+\newcommand{\lib}[1]{\texttt{#1}}
+\newcommand{\class}[1]{\texttt{#1}}
+\newcommand{\fcn}[1]{\texttt{#1()}}
+\newcommand{\var}[1]{\texttt{#1}}
+\newcommand{\file}[1]{\texttt{#1}}
+\newcommand{\dir}[1]{\texttt{#1}}
+
+% Text Markup
+\newcommand{\todo}[1]{{\bf \textcolor{red}{[TODO: #1]}}}
+\newcommand{\todobox}[1]{\noindent \begin{center}
+\fbox{\parbox{0.9\linewidth}{\textcolor{red}{\textbf{TODO:} #1}}} \end{center}}
+
+\newcommand{\denselist}{\itemsep -3pt\partopsep -7pt}
+
+% Caligraphic Letters
+\newcommand{\A}{{\cal A}}
+\newcommand{\B}{{\cal B}}
+\newcommand{\C}{{\cal C}}
+\newcommand{\D}{{\cal D}}
+\newcommand{\E}{{\cal E}}
+\newcommand{\F}{{\cal F}}
+\newcommand{\G}{{\cal G}}
+\renewcommand{\H}{{\cal H}}
+\newcommand{\I}{{\cal I}}
+\newcommand{\J}{{\cal J}}
+\newcommand{\K}{{\cal K}}
+\newcommand{\Ell}{{\cal L}}
+\newcommand{\M}{{\cal M}}
+\newcommand{\N}{{\cal N}}
+\renewcommand{\O}{{\cal O}}
+\renewcommand{\H}{{\cal H}}
+\renewcommand{\P}{{\cal P}}
+\newcommand{\Q}{{\cal Q}}
+\newcommand{\R}{{\cal R}}
+%\renewcommand{\S}{{\cal S}}
+\newcommand{\T}{{\cal T}}
+\newcommand{\U}{{\cal U}}
+\newcommand{\V}{{\cal V}}
+\newcommand{\W}{{\cal W}}
+\newcommand{\X}{{\cal X}}
+\newcommand{\Y}{{\cal Y}}
+\newcommand{\Z}{{\cal Z}}
+
+% Bold Symbols
+\newcommand{\ba}{\boldsymbol{a}}
+\newcommand{\bb}{\boldsymbol{b}}
+\newcommand{\bc}{\boldsymbol{c}}
+\newcommand{\be}{\boldsymbol{e}}
+%\newcommand{\bf}{\boldsymbol{f}}
+\newcommand{\bh}{{\boldsymbol{h}}}
+\newcommand{\bi}{{\boldsymbol{i}}}
+\newcommand{\bj}{{\boldsymbol{j}}}
+\newcommand{\bk}{{\boldsymbol{k}}}
+\newcommand{\bl}{{\boldsymbol{l}}}
+\newcommand{\bm}{{\boldsymbol{m}}}
+\newcommand{\bn}{{\boldsymbol{n}}}
+\newcommand{\bo}{{\boldsymbol{o}}}
+\newcommand{\bp}{{\boldsymbol{p}}}
+\newcommand{\bq}{{\boldsymbol{q}}}
+\newcommand{\br}{{\boldsymbol{r}}}
+\newcommand{\bs}{{\boldsymbol{s}}}
+\newcommand{\bt}{{\boldsymbol{t}}}
+\newcommand{\bu}{{\boldsymbol{u}}}
+\newcommand{\bv}{{\boldsymbol{v}}}
+\newcommand{\bw}{{\boldsymbol{w}}}
+\newcommand{\bx}{{\boldsymbol{x}}}
+\newcommand{\by}{{\boldsymbol{y}}}
+\newcommand{\bz}{{\boldsymbol{z}}}
+\newcommand{\bA}{{\boldsymbol{A}}}
+\newcommand{\bB}{{\boldsymbol{B}}}
+\newcommand{\bC}{{\boldsymbol{C}}}
+\newcommand{\bD}{{\boldsymbol{D}}}
+\newcommand{\bE}{{\boldsymbol{E}}}
+\newcommand{\bF}{{\boldsymbol{F}}}
+\newcommand{\bG}{{\boldsymbol{G}}}
+\newcommand{\bH}{{\boldsymbol{H}}}
+\newcommand{\bI}{{\boldsymbol{I}}}
+\newcommand{\bJ}{{\boldsymbol{J}}}
+\newcommand{\bK}{{\boldsymbol{K}}}
+\newcommand{\bL}{{\boldsymbol{L}}}
+\newcommand{\bM}{{\boldsymbol{M}}}
+\newcommand{\bN}{{\boldsymbol{N}}}
+\newcommand{\bO}{{\boldsymbol{O}}}
+\newcommand{\bP}{{\boldsymbol{P}}}
+\newcommand{\bQ}{{\boldsymbol{Q}}}
+\newcommand{\bR}{{\boldsymbol{R}}}
+\newcommand{\bS}{{\boldsymbol{S}}}
+\newcommand{\bT}{{\boldsymbol{T}}}
+\newcommand{\bU}{{\boldsymbol{U}}}
+\newcommand{\bV}{{\boldsymbol{V}}}
+\newcommand{\bW}{{\boldsymbol{W}}}
+\newcommand{\bX}{{\boldsymbol{X}}}
+\newcommand{\bY}{{\boldsymbol{Y}}}
+\newcommand{\bZ}{{\boldsymbol{Z}}}
+
+\newcommand{\balpha}{\boldsymbol{\alpha}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\bgamma}{\boldsymbol{\gamma}}
+\newcommand{\bdelta}{\boldsymbol{\delta}}
+\newcommand{\blambda}{\boldsymbol{\lambda}}
+\newcommand{\bmu}{\boldsymbol{\mu}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bphi}{\boldsymbol{\phi}}
+\newcommand{\bpsi}{\boldsymbol{\psi}}
+\newcommand{\bxi}{\boldsymbol{\xi}}
+
+\newcommand{\bDelta}{\boldsymbol{\Delta}}
+\newcommand{\bPhi}{\boldsymbol{\Phi}}
+
+% Figure and Equation References
+\newcommand{\figref}[1]{Figure~\ref{#1}}
+\newcommand{\eqnref}[1]{Equation~\ref{#1}}
+\newcommand{\chapref}[1]{Chapter~\ref{#1}}
+\newcommand{\secref}[1]{Section~\ref{#1}}
+\newcommand{\appref}[1]{Appendix~\ref{#1}}
+\newcommand{\tabref}[1]{Table~\ref{#1}}
+\newcommand{\algref}[1]{Algorithm~\ref{#1}}
+\newcommand{\lineref}[1]{Line~\ref{#1}}
+
+% Theorems, definitions, etc
+\def\thmcolon{\hspace{-.85em} {\bf :}}
+%\def\thmcolon{\relax}
+
+\newtheorem{THEOREM}{Theorem}[section]
+\newtheorem{LEMMA}[THEOREM]{Lemma}
+\newtheorem{PROPOSITION}[THEOREM]{Proposition}
+\newtheorem{COROLLARY}[THEOREM]{Corollary}
+\newtheorem{DEFINITION}[THEOREM]{Definition}
+\newtheorem{OBSERVATION}[THEOREM]{Observation}
+
+\newenvironment{theorem}{\begin{THEOREM} \thmcolon \rm}{\end{THEOREM}}
+\newenvironment{lemma}{\begin{LEMMA} \thmcolon \rm}{\end{LEMMA}}
+\newenvironment{proposition}{\begin{PROPOSITION} \thmcolon \rm}{\end{PROPOSITION}}
+\newenvironment{corollary}{\begin{COROLLARY} \thmcolon \rm}{\end{COROLLARY}}
+\newenvironment{definition}{\begin{DEFINITION} \thmcolon \rm}{\end{DEFINITION}}
+\newenvironment{observation}{\begin{OBSERVATION} \thmcolon \rm}{\end{OBSERVATION}}
+
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+% Headings
+\newcommand{\smallhead}[1]{\bigskip \noindent {\bf {#1}.}}
+
+% Image Placeholders
+\newcommand{\placeholder}[2]{\framebox{\begin{minipage}{#1\columnwidth}
+      \centering \vspace{#2}TODO\vspace{#2}
+\end{minipage}}}
+
+% Table Helpers
+\newcommand{\tabcell}[2]{\parbox[t]{#1}{#2 \smallskip}}
+
+% Code Listings
+\definecolor{bgCode}{rgb}{0.94, 0.94, 1.0}
+\lstset{basicstyle=\footnotesize, frame=single, backgroundcolor=\color{bgCode}}
+
+% Thesis Macros
+\newcommand{\fullpix}[1]{\ensuremath{(u_{#1}, v_{#1})}}
+\newcommand{\ray}[1]{\ensuremath{\mathbf{r}_{#1}}}
+\newcommand{\point}[1]{\ensuremath{\mathbf{x}_{#1}}}
+\newcommand{\depth}[1]{\ensuremath{\hat{d}_{#1}}}
+\newcommand{\fullpt}[1]{\ensuremath{(x_{#1}, y_{#1}, z_{#1})}}
+\newcommand{\horizon}{\ensuremath{v^{\textrm{hz}}}}
+
+\newcommand{\image}{{\cal I}}
+\newcommand{\moveSet}{\Omega}
+\newcommand{\segment}{\omega}
+\newcommand{\numClasses}{N^{\textrm{class}}}
+\newcommand{\numSegments}{N_{\textrm{segments}}}
+\newcommand{\numRegions}{K}
+\newcommand{\pixelSet}{{\cal P}}
+\newcommand{\contrast}[1]{\gamma_{#1}}
+
+\newcommand{\weight}[1]{\eta^{\textrm{#1}}}
+\newcommand{\parameter}[1]{\theta^{\textrm{#1}}}
+\newcommand{\factor}[1]{\psi^{\textrm{#1}}}
+
+\newcommand{\fcount}{\factor{count}(K)}
+\newcommand{\fhorizon}{\factor{horizon}(\horizon)}
+\newcommand{\fregion}{\factor{region}_{r}(S_r, G_r, \horizon; A_r, \pixelSet_r)}
+\newcommand{\fpair}{\factor{pair}_{rs}(S_r, G_r, S_s, G_s; A_r, \pixelSet_r, A_s, \pixelSet_s)}
+\newcommand{\fboundary}{\factor{boundary}_{pq}(R_p, R_q; \alpha_p, \alpha_q)}
+\newcommand{\fobject}{\factor{obj}_o(C_o, \horizon)}
+\newcommand{\fcontext}{\factor{ctxt}_{or}(C_o, S_r)}
