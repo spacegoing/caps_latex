@@ -23,7 +23,7 @@
     \centering
     % \includegraphics[scale=0.5]{logo_nasa_trio_black@2x.png}
 	\end{figure}
-	\vspace{2cm} {\scshape\LARGE Ph.D. Research Proposal\par}
+	\vspace{2cm} {\scshape\LARGE Literature Review\par}
   \vspace{2cm}
   
   %%%%%%%%%%% Title
@@ -42,51 +42,7 @@
 \end{titlepage}
 
 
-\section{Aims \& Objectives}
-
-\begin{enumerate}
-\item Flexibility in modeling complex patterns with long-range
-  dependencies
-  \begin{enumerate}
-  % DA-RNN
-  \item Capturing complex non-linear correlations without prior
-    knowledge and assumptions
-  \item Encoding high dimensional input variables adaptively
-  \item Discovering long term dependencies of encoded inputs
-  % \item Novel insights in feature extraction of complex inputs
-  % TODO: Capsule Net
-  % TODO: Capsule's Equivalent Problem in RNN
-  % \item Demonstrating both classification and regression problems
-  \end{enumerate}
-\item Network architectures with better computational properties
-  % TODO: All you need is attention
-\item Decoding/Encoding human intepretable representations
-  from/into models
-  % TODO: DARNN_Bilinear
-  \begin{enumerate}
-  \item Approximating deep neural networks' input-output
-    relationships using human intepretable models
-  \item Learning deep neural networks coupled with structured
-    (potentially predefined) latent variable sequence
-  \end{enumerate}
-\end{enumerate}
-
-\section{Synopsis}
-\label{sec:synop}
-
-This project is focused on investigating sequence data learning
-using deep learning networks. We divide this project into three
-phases. We first aim to solve long-term dependencies issues by
-investigating RNNs based encoder-decoder models with attention
-mechanism. Then we will try to generalize those algorithms into
-broader network topologies such as CNNs and feed-forward networks
-to achieve better computational performance. The last goal of
-this project is to improve the interpretability of deep learning
-networks by using conventional human friendly machine learning
-techniques such as lasso regression, random forest and graphical
-models.
-
-\section{Background And Literature Review}
+\section{Introduction}
 \label{sec:intro}
 
 One interesting task in machine learning is modeling complex
@@ -132,7 +88,7 @@ learning applications there exists many long-term dependencies
 relationships, the question of solving this drawback remains
 open.
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \includegraphics[scale=0.5]{images/en-de.png}
   \caption{Encoder-Decoder Network}
@@ -148,31 +104,314 @@ could also provide insights into the data set and model itself.
 Thus improving the interpretability of DNNs could also be a very
 interesting topic to investigate.
 
+\section{CapsNet: Novel Interpretable Knowledge Representation
+  Techniques}
+\label{sec:caps_intro}
 
-\section{Proposed Methodology}
+Neural networks have shown dominant advantages of extracting
+features and recognizing patterns from raw data directly without
+domain knowledge over conventional statistical methods. One of
+the most successful architecture, CNNs, achieves the ability of
+classifying objects without prior knowledge of positioning by
+creating a pool of neuron activities and down sampling the most
+active scalar from the pool. It also use convolution operation to
+replicate knowledge through different positions. Together with
+multi layer structure, CNNs achieves translational invariance and
+viewpoint invariance. However, one problem of CNNs is the missing
+information about pose (position, size, orientation) matrix of
+entities during the procedure of down sampling. While
+facilitating CNNs achieving viewpoint invariance, lacking of pose
+information also leads to several severe problems such as
+vulnerable to adversarial attacks, incapable of overlapping
+objects recognition and 3D objects recognition.
+
+In 2017, \citeauthor*{capsule}\cite{capsule} revives an ancient
+technology, the capsule neural networks, to tackle these
+difficulties. The origination of capsule neural networks can be
+tracked down to 1980s when it is first introduced as a feature
+extracting technology which achieves viewpoint invariance in task
+of recognizing constellations \cite{zemel1990traffic}. In that
+paper \citeauthor*{zemel1990traffic} \cite{zemel1990traffic}
+discovered that using a vector of parameters as output of neurons
+instead of a single scalar shows some promising properties such
+as viewpoint invariance. However subjected to computational
+difficulties at that time, they were unable to prove the
+effectiveness of this method and could not develop a mature
+method utilizing the nice feature extracted by capsules forming
+more abstract entities.
+
+More than 20 years later, in 2011 a group of authors
+\citeauthor*{hinton2011transforming}
+\cite{hinton2011transforming} re-discovered this method and were
+able to show the feature extracted by capsules can be easily
+trained to learn the pose parameters from pixel intensities. The
+remaining task of capsule neural networks is simply finding a
+grouping method which can translate the lower entities' knowledge
+to higher entities in order to formulate a part-whole
+relationship between capsules.
+
+\citename{capsule} followed this by developing a so called
+``routing by agreement'' iterative method to route knowledge
+learned by lower layer capsules to higher layers capsules
+according to lower layer capsules' agreement.
+\citename{hinton2018matrix} extended this method by designing a
+EM like algorithm which treats higher layer capsules as Gaussian
+distributions and lower layer capsules as data points. The
+routing problem then becomes a Gaussian Mixture Model (GMM)
+clustering problem by assigning lower layer capsules (data
+points) to higher layer capsules (Gaussian).
+
+Here we will briefly examine the development of the capsule
+neural networks and how those methods are relevant to our
+research.
+
+\subsection{Instantiation Parameters Extracting}
+\label{sec:instan}
+
+One advantage of CNNs is the viewpoint invariance property
+achieved by using down sampling method. The main difficulty comes
+with it is that the missing information of pose matrix.
+\citename{zemel1990traffic} argued that instead of using a scalar
+as the output of neuron, we could use a more complex mechanism to
+organize neurons in a more organized way and outputs a vector of
+real values to encode the pose information. They also separated
+the task of extracting features from image intensities into two
+subtasks. They represent the knowledge of entities themselves
+into a vector of instantiation parameters (neuron activities)
+which is equivariant with respect to viewpoint changes in raw
+images. And encode the knowledge of part-whole relationships
+using weight matrix which is viewpoint invariant and can be
+learned during the end-to-end training.
+
+They proved this by utilizing the fact that the reference frame
+of all parts of an entity should produce identical reference
+frame (the entity's) after transformation (the ``viewpoint
+consistency constraint''). In their configuration, there are two
+layers of neurons. Neurons in lower layer represents features
+extracted from raw images. Each feature (capsule) is composed of
+a vector of real values which can be seen as the flatten version
+of the pose matrix. Neurons in higher layer represents more
+abstract objects which also contains a vector of real values as
+instantiation parameters. Therefore, the fixed transformation
+matrix which describes the structural relationship between
+features and objects can be encoded in the connectionist network
+as the weight matrix between those two layers.
+
+Let $T_{fo}$ be the transformation matrix from object to feature
+frame, $T_{io}$ be the transformation matrix from object to
+image frame and $T_{if}$ be the transformation matrix from
+feature to image frame. Then we have the equality that
+
+$$T_{io}=T_{if}T_{fo}$$
+
+Therefore once we learned from the feature-object pair to get
+$T_{fo}$ and got $T_{if}$ from raw input image, the
+transformation matrix $T_{io}$ can be easily computed by simply
+multiply those two matrix.
+
+Therefore, suppose the instantiation parameters of capsules at
+lower layer are represented as $P_{if} =
+(x_{if},y_{if},c_{if},s_{if})$ in which the first two parameters
+are coordinates. $c_{if}$ is the scale and $s_{if}$ is the angle
+of the feature frame. Accordingly, we can use $P_{io} =
+(x_{io},y_{io},c_{io},s_{io})$ to represent the object frame and
+$P_{fo} = (x_{fo},y_{fo},c_{fo},s_{fo})$ to represent the object
+to feature frame. We can easily represent the transformation
+matrix from feature frame to image frame by using:
+
+\begin{align*}
+  T_{if}=
+  \begin{bmatrix}
+    c_{if} & s_{if} & x_{if} \\
+    -s{if} & c_{if} & y_{if} \\
+    0 & 0 & 1
+  \end{bmatrix}
+\end{align*}
+
+Under this formulation, the reference frame transformation
+between lower layer features (parts of entity) and higher layer
+objects (more abstract entity) can be encoded in the weight
+matrix between two layers and can be learned end-to-end from the
+training algorithm. This novel formulation results a very nice
+property that the weight matrix which represents the structural
+relationship between part and whole is viewpoint invariance while
+the instantiation parameters which are represented neuron
+activities are equivariant to the viewpoint changes of entities
+in raw images.
+
+Following their work, \citename{hinton2011transforming} for the
+first time gave a formal definition of the capsule neural
+networks and demonstrated its capability of extracting explicit
+pose information from raw image intensities inputs.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.5]{images/caps_cord.png}
+  \caption{Capsules in Transforming Auto-encoders}
+  \label{fig:caps-cord}
+\end{figure}
+
+As can be seen in figure~\ref{fig:caps-cord}, each capsule
+contains two sub layers. The neurons in lower layer are called
+``recognition units'', which receive raw image intensities as
+inputs and outputs three values. Values $x$ and $y$ are simply
+the coordinates of the entity that capsule represents. The value
+$p$ measures the degree of existence of the entity in the
+original image. This measure can be viewed as the probability of
+the entity appears in the image. 
+
+The task of this paper is to reconstruct the shifted image from
+the input image. \citename{hinton2011transforming} argued that
+similar to human brain receives fixation movements from eyebrow
+movements, the neural net neurons could also have direct
+transformation information to facilitate the prediction of
+coordinates of the shifted image. Therefore following the
+recognition units, the shift information $\Delta x$ and $\Delta
+y$ are added directly to the outputs and then be used as inputs
+to the higher sub-layer. The higher sub-layer is called
+``generation units'' which is also composed of a vector of
+neurons. Neurons in this layer are simply like conventional
+neurons which make predictions of the inputs. One subtle thing is
+that instead of directly passed to higher layer, outputs of
+generation units are firstly multiplied with the probability
+measurement $p$.
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{images/trans_caps.png}
+  \caption{Transforming Auto-encoders Result. The left image
+    shows coordinates predicted by recognition units. The right
+    image shows weight matrix of 10 generative units from 9
+    capsules.}
+  \label{fig:trans_enco}
+\end{figure}
+
+
+As a simple demonstration of capsule neural networks' capability
+of learning pose information explicitly, the previous network
+configuration was trained on randomly shifted images from MNIST
+dataset. Results reported in their paper (see
+figure~\ref{fig:trans_enco}) showed that for most of pixels
+recognition units are able to predict the shifted coordinates
+correctly. Exceptions appeared for border and corner pixels.
+Generative units on the contrary can learn highly localized
+weight matrix from recognition units' outputs which proved that
+the effectiveness of capsule neural networks.
+
+All of the above works are concentrated on the lower layer
+configuration of capsule neural networks. They first proposed a
+novel network architecture which use a group of neurons instead
+of a single neurons as the output of one layer. The advantages of
+viewpoint invariance achieved in weight matrix and viewpoint
+equivariant in instantiation parameters were elaborated by using
+reference frame and consistency constraint theory. Then they
+proved the effectiveness of capsule neural networks extracting
+pose information from raw image intensities.
+
+At this stage, the task of recognition has been separated into
+two concerns. One is extracting features directly from image
+intensities which has been proved could be easily done using the
+novel network architecture. The other is how to formulate the
+part whole relationship, namely pass lower layer capsules'
+information to higher layer capsules.
+
+\subsection{Modeling Part-whole Relationship Between Capsules}
+\label{sec:partwhole}
+
+\citename{capsule} followed previous work on capsule neural
+networks and extended the mechanism of pose information
+extracting to object recognizing. The main difficulty they
+demonstrated in that paper is how lower layer capsules' outputs
+can be used to make contributions to higher layer capsules'
+instantiation parameters.
+
+In previous work \cite{zemel1990traffic,hinton2011transforming},
+each lower capsule contributes to their parents (higher layer
+capsules) individually by weighting their outputs with the
+probability predicted. Parent capsule receives incoming values
+from all of its children capsules and the instantiation
+parameters is calculated by simply averaging all those incoming
+values. This technique of sending lower layer information to
+higher layer makes a strong assumption on the lower layers'
+inputs that there will always exist strong enough good
+predictions which can cancel other deviations at any degree.
+Apparently this is not an ideal method.
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.3]{images/capsnet_recursive.png}
+  \caption{Dynamic Routing Architecture}
+  \label{fig:routing}
+\end{figure}
+
+To tackle with this issue, \citename{capsule} proposed a type of
+``routing-by-agreement'' algorithm. The architecture they used
+for constructing capsule layers (see figure~\ref{fig:routing}) is
+slightly different from previous works
+\cite{zemel1990traffic,hinton2011transforming}. Instead of
+outputs instantiation parameters together with the probability of
+the existence of the entity that capsule represents in the image,
+the capsule under their configuration only outputs a vector of
+instantiation parameters. The entity is represented by the
+orientation of the instantiation vector and the probability of
+existence is represented by the length of it. By using this
+formulation the routing path from lower layer capsules to higher
+layer capsules can thus determined by comparing the dot product
+between them. Information from lower layer capsules are only
+routed to higher layer capsules which have large dot product
+value with them.
+
+To facilitate dynamic routing mechanism, there are also several
+subtle techniques used in this work. As can be seen in
+figure~\ref{fig:routing}, the configuration of lower layer
+capsules are almost the same with previous works. Each lower
+layer capsule $i$ outputs a instantiation vector $u_i$ which is
+transformed by the weight matrix $\hat{u}_{j|i}=W_{ij}u_i$. The
+variable $\hat{u}_{j|i}$ is called ``predictions'' made by lower
+layer capsules. The transformation is identical to previous
+works' which has a very nice property of viewpoint invariance.
+However, the dimension of instantiation vector $u$ is much higher
+than previous versions to encode various visual properties such
+as pose, lighting and deformation etc.
+
+The prediction vector $\hat{u}_{j|i}$ are then multiplied by a
+coupling coefficient $c_{ij}$ which is dynamically updated by
+``routing-by-agreement'' algorithm. The output $s_j$ is a
+summation over all incoming lower layer capsules' prediction
+vectors weighted by coupling coefficients. Because the length of
+instantiation vector is used to predict the probability of
+represented entity's existence, the variable $s_j$ is further
+processed using a ``squanshing'' function which narrows the
+distribution of the length close to zero and one.
+
+The power of ``routing-by-agreement'' algorithm lies in the
+iterative updating schema of coupling coefficient $c_{ij}$. As
+can be seen in figure~\ref{fig:routing}, the coupling coefficient
+is a softmax function over variable $b_{ij}$. The variable
+$b_{ij}$ here acts like a log prior probability of the capsule
+$i$ should make predictions to capsule $j$. In each iteration,
+the log prior probability $b^{l+1}_{ij}$ is updated by addition
+of previous $b^l_{ij}$ and the dot product of incoming capsule's
+prediction vector $\hat{u}_{j|i}$ and instantiation vector of
+parent capsule $v_j$. The dot product acts like a log likelihood
+probability which measures the likelihood of capsule $i$ should
+make predictions to capsule $j$ and thus be called the
+``agreement'' between lower layer capsules and higher layer
+capsules. By using this iterative schema, information contained
+in lower layer capsules are only sent to higher layer capsules
+which have strong agreement with the incoming prediction from it.
+
+The result of ``routing-by-agreement'' mechanism is a part-whole
+relationship parsing tree. Each node in the parse tree is an
+activated capsule. The parents of that node is chosen by the
+dynamic routing mechanism. Under this configuration, the network
+architecture is not only viewpoint invariance in weight matrix
+and equivariant in instantiation parameters, the classification
+result is also a highly interpretative structure of part-whole
+relationships.
+
+\section{Sequence Learning Methods}
 \label{sec:method}
-
-We divide this project into three phases.
-
-To commence we will investigate the mechanism of long-term
-dependencies in time-series and how to model them using deep
-neural networks. We will also investigate optimization algorithms
-which can jointly optimize neural networks together with feature
-selection.
-
-With optimization algorithms in hand, at the second stage we will
-try to extend those algorithms into various network topologies
-such as CNNs and simple feed-forward neural networks. The goal of
-the second stage is to investigate novel network topologies which
-can preserve good approximation performance while having better
-computational properties, such as parallelization.
-
-At the final stage, we will explore a large group of conventional
-machine learning methods (lasso regression, random forest,
-graphical model, etc.) aiming at explaining the learning results
-of neural networks. Outcomes at this stage not only improves the
-interpretability of neural networks but also give insights on how
-to encode expert prior knowledge into neural networks.
 
 \subsection{Modeling Long-term Dependencies And Feature
   Selection}
@@ -310,48 +549,24 @@ PGMs~\cite{johnson2016composing}. Investigation in this topic
 could provide very interesting insights for both DNNs and PGMs
 researches.
 
-\section{Work Plan}
 
-	\begin{table}[H]
-		\centering
-		\label{tab:work_plan}
-		\def\arraystretch{1.5}%  1 is the default, change whatever you need
-		\begin{tabularx}{\textwidth}{|X|l|}
-			\hline
-			\multicolumn{1}{|c|}{\textbf{Key Item}}                                                        & \multicolumn{1}{c|}{\textbf{Date}} \\ \hline
-			Literature review and refine the scope of the project.
-                                                                                                     &
-                                                                                                       \multicolumn{1}{c|}{March
-                                                                                                       -
-                                                                                                       June
-                                                                                                       2017}
-      \\ \hline
-			Re-implement models in section~\ref{sec:ltfs} and section~\ref{sec:better_comp} &
-                                                                                        \multicolumn{1}{c|}{July
-                                                                                        -
-                                                                                        December
-                                                                                        2017}            \\ \hline
-			Implement feature selection mechanism for models in
-      section~\ref{sec:better_comp} & \multicolumn{1}{c|}{January
-                                      - April 2018}          \\ \hline
-			Explore various topologies to achieve better computational
-      performance & \multicolumn{1}{c|}{May - September 2018}             \\ \hline
-			Write up experiment results for conference paper & \multicolumn{1}{c|}{September - December 2018}       \\ \hline
-			Re-implement models in section~\ref{sec:interp} &
-                                                        \multicolumn{1}{c|}{January
-                                                        - April 2019}            \\ \hline
-      Investigating explanations of previous models &
-                                                      \multicolumn{1}{c|}{May - June 2019}                \\ \hline
-			Write up experiment results for conference paper &
-                                                         \multicolumn{1}{c|}{July - October 2019}                \\ \hline
-			Write up thesis & \multicolumn{1}{c|}{November - January 2020}         \\ \hline
-			Draft submission of thesis to supervisor and rework based on feedback                          & \multicolumn{1}{c|}{Early February 2020}              \\ \hline
-			Thesis presentation/defense and submission to assessors. Potentially rework based on feedback  & \multicolumn{1}{c|}{March 2020}      		     \\ \hline
-			Final submission of thesis                                                                     & \multicolumn{1}{c|}{April 2020}		             \\ \hline
-		\end{tabularx}
-		\caption{Estimated work plan}
-	\end{table}
+\section{Conclusion}
+\label{sec:conclu}
 
-	
+Sequence data learning using deep learning networks is a
+promising method compared to conventional techniques. However,
+there are mainly three difficulties remaining to be solved. The
+first is investigating novel network architecture based on
+encoder-decoder models with attention mechanism. Then is to
+extend the attention mechanism into broader view of architectures
+such as CNNs and feed-forward neural networks to tackle the
+recurrent architecture introduced by RNNs. While achieving good
+approximation and computation properties, we also want the
+training result to be interpretative. In this literature review
+we investigate several most advanced techniques with regard to
+those issues. We also demonstrated the state-of-the-art novel
+network architecture ``capsule neural networks'' and how its nice
+properties can be potentially integrated into our system.
+
 \bibliographystyle{abbrvnat} \bibliography{proposal.bib}
 \end{document}

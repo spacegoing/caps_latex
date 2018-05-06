@@ -1,5 +1,5 @@
 (TeX-add-style-hook
- "usyd_phd_proposal"
+ "research_outline"
  (lambda ()
    (TeX-add-to-alist 'LaTeX-provided-package-options
                      '(("geometry" "margin={3.5cm,3cm}") ("fontenc" "T1") ("inputenc" "utf8") ("StyFiles/natbib" "sort" "numbers")))
@@ -25,22 +25,13 @@
     "environ"
     "StyFiles/natbib"
     "StyFiles/natbibspacing")
+   (TeX-add-symbols
+    "arraystretch")
    (LaTeX-add-labels
-    "sec:intro"
-    "fig:en-de"
-    "sec:caps_intro"
-    "sec:instan"
-    "fig:caps-cord"
-    "fig:trans_enco"
-    "sec:partwhole"
-    "fig:routing"
+    "sec:synop"
     "sec:method"
-    "sec:ltfs"
-    "fig:attention"
-    "fig:darnn"
-    "sec:better_comp"
-    "sec:interp"
-    "sec:conclu")
+    "sec:eval"
+    "tab:work_plan")
    (LaTeX-add-bibliographies
     "proposal.bib"))
  :latex)

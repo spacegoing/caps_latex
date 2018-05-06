@@ -1,0 +1,202 @@
+\documentclass{article} \usepackage{tabularx}
+\usepackage{amsmath} \usepackage{amssymb} \usepackage{tikz}
+\usepackage{booktabs}
+\usepackage{float} \restylefloat{table} \graphicspath{{images/}}
+\usepackage[margin={3.5cm,3cm}]{geometry} \usepackage{multicol}
+\setlength\columnsep{1.5cm} \usepackage{tabto}
+\usepackage{pdflscape} \usepackage{graphicx} \usepackage{array}
+\usepackage[T1]{fontenc} \usepackage[utf8]{inputenc}
+\usepackage{charter} \usepackage{environ} \usepackage{tikz}
+\usetikzlibrary{calc,matrix}
+% For citations
+\usepackage[sort,numbers]{StyFiles/natbib}
+\renewcommand{\citename}{\citet} \renewcommand{\cite}{\citep}
+\usepackage{StyFiles/natbibspacing}
+
+
+\begin{document}
+
+
+\begin{titlepage}
+	\centering
+	\begin{figure}[H]
+    \centering
+    % \includegraphics[scale=0.5]{logo_nasa_trio_black@2x.png}
+	\end{figure}
+	\vspace{2cm} {\scshape\LARGE Ph.D. Research Outline\par}
+  \vspace{2cm}
+  
+  %%%%%%%%%%% Title
+	{\scshape\LARGE
+
+    Sequence Learning Using Deep Neural Networks With Flexibility
+    \& Interpretability
+    
+    \par} {\huge\bfseries \par}
+	
+	\vspace{2cm} {\Large\itshape Chang \textsc{Li}\par} \vfill
+
+  {\Large Supervisor\par} {\Large\itshape Prof. Dacheng
+    \textsc{Tao}\par} \vfill
+
+\end{titlepage}
+
+\section{Introduction}
+\label{sec:synop}
+
+This project is focused on investigating sequence data learning
+using deep learning networks. We divide this project into three
+phases. We first aim to solve long-term dependencies issues by
+investigating RNNs based encoder-decoder models with attention
+mechanism. Then we will try to generalize those algorithms into
+broader network topologies such as CNNs and feed-forward networks
+to achieve better computational performance. The last goal of
+this project is to improve the interpretability of deep learning
+networks by using conventional human friendly machine learning
+techniques such as lasso regression, random forest and graphical
+models.
+
+
+\section{Aims \& Objectives}
+
+\begin{enumerate}
+\item Flexibility in modeling complex patterns with long-range
+  dependencies
+  \begin{enumerate}
+  % DA-RNN
+  \item Capturing complex non-linear correlations without prior
+    knowledge and assumptions
+  \item Encoding high dimensional input variables adaptively
+  \item Discovering long term dependencies of encoded inputs
+  % \item Novel insights in feature extraction of complex inputs
+  % TODO: Capsule Net
+  % TODO: Capsule's Equivalent Problem in RNN
+  % \item Demonstrating both classification and regression problems
+  \end{enumerate}
+\item Network architectures with better computational properties
+  % TODO: All you need is attention
+\item Decoding/Encoding human intepretable representations
+  from/into models
+  % TODO: DARNN_Bilinear
+  \begin{enumerate}
+  \item Approximating deep neural networks' input-output
+    relationships using human intepretable models
+  \item Learning deep neural networks coupled with structured
+    (potentially predefined) latent variable sequence
+  \end{enumerate}
+\end{enumerate}
+
+
+\section{Proposed Methodology}
+\label{sec:method}
+
+We divide this project into three phases.
+
+To commence we will investigate the mechanism of long-term
+dependencies in time-series and how to model them using deep
+neural networks. We will also investigate optimization algorithms
+which can jointly optimize neural networks together with feature
+selection.
+
+With optimization algorithms in hand, at the second stage we will
+try to extend those algorithms into various network topologies
+such as CNNs and simple feed-forward neural networks. The goal of
+the second stage is to investigate novel network topologies which
+can preserve good approximation performance while having better
+computational properties, such as parallelization.
+
+At the final stage, we will explore a large group of conventional
+machine learning methods (lasso regression, random forest,
+graphical model, etc.) aiming at explaining the learning results
+of neural networks. Outcomes at this stage not only improves the
+interpretability of neural networks but also give insights on how
+to encode expert prior knowledge into neural networks.
+
+\section{Proposed Evaluation Scheme}
+\label{sec:eval}
+
+For this project we proposed three experiments from different
+areas.
+
+The first experiment we will conduct is Chinese poetry
+generation. We will test our sequence learning algorithms first
+on self auto-regression problems to verify various properties we
+desired do take effect. We choose Chinese poetry database because
+it is highly interpretative and there are many part-whole
+relationships exists in Chinese poetry. However, one major
+challenge is that conventional evaluation metrics such as BLEU
+and ROUGE on poetry generation task have little correlations with
+human evaluation. Therefore we will have to propose novel
+evaluation metrics to consider the uniqueness of poetry
+generation problem. One viable option is pure human evaluation.
+Another potential option is calculating the recall rate of the
+key concepts used as input to the system. Even though we are
+having difficulties in evaluating the generated poetry's quality,
+we can easily observe the part-whole relationships by simply
+visualizing the parse tree of how lower layer information is
+propagated to higher layer.
+
+The second experiment we will conduct is conventional Neural
+Machine Translation (NMT) experiment. We will adapt our model to
+several WMT 2014 translation tasks such as English-to-German task
+and English-to-French task. The effectiveness of the model can be
+easily evaluated using BLEU metric. We will also concern the
+computational properties improvement by our novel architectures
+by comparing computational time with other architectures.
+
+The third experiment we propose to conduct is visual object
+recognition. We will extend our model to a non-autoregressive
+formulation and experiment it on MNIST dataset to show the
+generalization property. Because of the equivariance in
+instantiation parameters and invariance in weight matrix
+properties we desired, we will experiment our networks on affine
+transformed MNIST dataset as well as overlapped objects MNIST
+dataset. The effectiveness of our model can be easily measured by
+prediction accuracy.
+
+\section{Work Plan}
+
+	\begin{table}[H]
+		\centering
+		\label{tab:work_plan}
+		\def\arraystretch{1.5}%  1 is the default, change whatever you need
+		\begin{tabularx}{\textwidth}{|X|l|}
+			\hline
+			\multicolumn{1}{|c|}{\textbf{Key Item}}                                                        & \multicolumn{1}{c|}{\textbf{Date}} \\ \hline
+			Literature review and refine the scope of the project.
+                                                                                                     &
+                                                                                                       \multicolumn{1}{c|}{March
+                                                                                                       -
+                                                                                                       June
+                                                                                                       2017}
+      \\ \hline
+			Re-implement models of encoder-decoder networks and
+      attention networks &
+                                                                                        \multicolumn{1}{c|}{July
+                                                                                        -
+                                                                                        December
+                                                                                        2017}            \\ \hline
+			Implement feature selection mechanism for models in
+      dual staged attention RNNs & \multicolumn{1}{c|}{January
+                                      - April 2018}          \\ \hline
+			Explore various topologies to achieve better computational
+      performance & \multicolumn{1}{c|}{May - September 2018}             \\ \hline
+			Write up experiment results for conference paper & \multicolumn{1}{c|}{September - December 2018}       \\ \hline
+			Re-implement models in capsule neural networks&
+                                                        \multicolumn{1}{c|}{January
+                                                        - April 2019}            \\ \hline
+      Investigating explanations of previous models &
+                                                      \multicolumn{1}{c|}{May - June 2019}                \\ \hline
+			Write up experiment results for conference paper &
+                                                         \multicolumn{1}{c|}{July - October 2019}                \\ \hline
+			Write up thesis & \multicolumn{1}{c|}{November - January 2020}         \\ \hline
+			Draft submission of thesis to supervisor and rework based on feedback                          & \multicolumn{1}{c|}{Early February 2020}              \\ \hline
+			Thesis presentation/defense and submission to assessors. Potentially rework based on feedback  & \multicolumn{1}{c|}{March 2020}      		     \\ \hline
+			Final submission of thesis                                                                     & \multicolumn{1}{c|}{April 2020}		             \\ \hline
+		\end{tabularx}
+		\caption{Estimated work plan}
+	\end{table}
+
+	
+\bibliographystyle{abbrvnat} \bibliography{proposal.bib}
+\end{document}

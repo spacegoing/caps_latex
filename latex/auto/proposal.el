@@ -24,6 +24,9 @@
     "goodfellow2014generative"
     "hinton2015distilling"
     "vaswani2017attention"
-    "Hinton:1981:SRP:1623264.1623370"))
+    "Hinton:1981:SRP:1623264.1623370"
+    "hinton2018matrix"
+    "hinton2011transforming"
+    "zemel1990traffic"))
  :bibtex)
 
